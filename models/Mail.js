@@ -16,14 +16,13 @@ let enviaCorreo = function(doc, type, callback){
 
     switch(type){
         case 'Bienvenida':
-            subsj = 'Bienvenid@ a la familia de JoinEvents'
+            subj = 'Bienvenid@ a la familia de JoinEvents'
             mensaj = '<b>Gracias por registrarte en JoinEvents</b>'
             break
         default :
             return callback('Invalid sendmail type')
     }
     
-    console.log('llega a3')
     let mailOptions = {
         from: 'JoinEvent',
         to: doc.email,

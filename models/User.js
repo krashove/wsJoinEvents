@@ -56,18 +56,6 @@ userSchema.pre('save', async function (next) {
             return datos
         })
     })
-     /*if (!user){
-         //console.log('correo no registrado')
-         //throw new Error({error: 'correo no registrado'})
-         return {err: 'correo no registrado'}
-     }
-     var isPasswordMatch = bcrypt.compare( password, user.password)
-     if (!isPasswordMatch) {
-         //throw new Error({error: 'contraseña incorrecta'})
-         return {err: 'contraseña incorrecta'}
-     }
- 
-     return user*/
  }
  
  userSchema.static('verifyCredentials', async function(token){

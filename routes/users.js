@@ -15,6 +15,7 @@ router.post('/createuser', async function(req, res, next){
   try{
     var newUser = new user(req.body)
     newUser.token = newUser.generateAuthToken()
+    newUser.tipoUser = 'cliente'
     await newUser.save()
 
     correo.enviaCorreo(newUser, 'Bienvenida', (err) =>{
