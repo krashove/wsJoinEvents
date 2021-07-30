@@ -13,4 +13,9 @@ var categoriaSchema = new mongoose.Schema({
     }
 })
 
+/******* STATICS *******/
+categoriaSchema.statics.findByIdu = async function(id){
+    return await this.findOne( { _id: id }).exec()
+}
+
 module.exports = mongoose.model('Categoria', categoriaSchema);

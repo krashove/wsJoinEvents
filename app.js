@@ -8,8 +8,9 @@ var expressSession = require('express-session');
 /* CONEXXION MONGO */
 var mongoose = require('./db/db');
 
-var indexRouter = require('./routes/index');
+var proveedoresRouter = require('./routes/proveedores');
 var usersRouter = require('./routes/users');
+var eventosRouter = require('./routes/eventos');
 
 var app = express();
 
@@ -29,8 +30,9 @@ app.use(expressSession({
   cookie: { secure: true }
 }));
 
-app.use('/', indexRouter);
+app.use('/proveedores', proveedoresRouter);
 app.use('/users', usersRouter);
+app.use('/events', eventosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

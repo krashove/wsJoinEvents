@@ -19,6 +19,14 @@ let enviaCorreo = function(doc, type, callback){
             subj = 'Bienvenid@ a la familia de JoinEvents'
             mensaj = '<b>Gracias por registrarte en JoinEvents</b>'
             break
+        case 'Confirmacion':
+            subj = 'Confirmación de correo'
+            mensaj = '<b>Gracias por registrarte en JoinEvents</b>'
+            break
+        case 'BienvenidaProvedor':
+            subj = 'Bienvenid@ a la familia de JoinEvents'
+            mensaj = '<b>Gracias por uniser a la gran familia de JoinEvents</b>'
+            break
         default :
             return callback('Invalid sendmail type')
     }

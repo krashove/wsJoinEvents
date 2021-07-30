@@ -42,7 +42,26 @@ var eventoSchema = new mongoose.Schema({
     },
     idCategoria:{
         type: String
+    },
+    estado:{
+        type: String,
+        trim: true,
+        lowercase: true,
+        default: 'creado'
     }
 })
+
+/******* STATICS *******/
+eventoSchema.statics.findByIdu = async function(id){
+    return await this.findOne( { _id: id }).exec()
+}
+
+eventoSchema.statics.findDisponibles = async function(){
+    return await this.find( { estado: 'publicado' }).exec()
+}
+
+eventoSchema.statics.findProveedor = async function(idProv){
+    return await this.find( { idProveedor: idProv }).exec()
+}
 
 module.exports = mongoose.model('Evento', eventoSchema);
