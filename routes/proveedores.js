@@ -36,7 +36,8 @@ router.post('/createuser', async function(req, res, next){
 
 router.post('/deleteUser', async function(req, res, next){
   try{
-    var infodelete = await user.deleteOne({ _id: req.body.token})
+    var usuario = await user.findByCredentials(req.body.token)
+    var infodelete = await user.deleteOne({ _id: usuario._id})
     
     return res.status(200).json({infodelete, 
       error:''})

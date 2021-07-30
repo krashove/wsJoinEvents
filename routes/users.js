@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 let user = require('../models/User');
 let correo = require('../models/Mail');
+let rutas = require('../models/Rutas');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -58,7 +59,7 @@ router.get('/confirm/:token', async function(req, res, next){
 
 router.post('/confirm', async function(req, res, next){
   try{
-    var usuario = await user.findByIdu(req.body.token)
+    var usuario = await user.findByCredentials(req.body.token)
     if(usuario.confirmado === true){
       return res.status(400).json({error: 'Usuario ya confirmado.'})
     }
@@ -78,15 +79,50 @@ router.post('/confirm', async function(req, res, next){
   }
 });
 
+router.post('/recuperaPassword', async function(req, res, next){
+  try{
+    var usuario = await user.findByCredentials(req.body.token)
+    if(usuario.confirmado === true){
+      return res.status(400).json({error: 'Usuario ya confirmado.'})
+    }
+
+    usuario.password = req.body.user.password
+    await usuario.save()
+
+    correo.enviaCorreo(usuario, 'ResetPassw', (err) =>{
+      if(!err){
+        res.status(400).json({error: err})
+      }
+    })
+
+    return res.status(200).json({error:''})
+  } catch(error){
+    return res.status(400).json({error})
+  }
+});
+
 router.post('/deleteUser', async function(req, res, next){
   try{
-    var infodelete = await user.deleteOne({ _id: req.body.token})
-    
+    var usuario = await user.findByCredentials(req.body.token)
+
+    var infodelete = await user.deleteOne({ _id: usuario._id})
+
     return res.status(200).json({infodelete, 
       error:''})
   } catch(error){
     return res.status(400).json({error})
   }
 });
+
+router.post('/getRutas', async function(req, res, next){
+  try{
+    var rutas = await rutas.findTypeUser(req.body.user.tipoUser)
+
+    return res.status(200).json({rutas, 
+      error:''})
+  }catch(error){
+    return res.status(400).json({error})
+  }
+})
 
 module.exports = router;
