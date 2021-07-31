@@ -123,6 +123,17 @@ router.post('/getRutas', async function(req, res, next){
   }catch(error){
     return res.status(400).json({error})
   }
+});
+
+router.post('/login', async function(req, res, next){
+  try{
+    var usuario = await user.findLogin(req.body.user.email, req.body.user.password)
+
+    return res.status(200).json({usuario, 
+      error:''})
+  }catch(error){
+    return res.status(400).json({error})
+  }
 })
 
 module.exports = router;

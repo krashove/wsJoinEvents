@@ -67,5 +67,17 @@ userSchema.statics.findByIdu = async function(id){
     return await this.findOne( { _id: id }).exec()
 }
 
+userSchema.statics.findLogin = async function(email, password){
+    var usuario = await this.findOne( { email: email }).exec()
+    console.log(password + ',' + usuario.password)
+    var check = await bcrypt.compare( password, usuario.password)
+    console.log(check)
+    if(check == false){
+        return null
+    }
+
+    return usuario
+}
+
  
 module.exports = mongoose.model('User', userSchema);
